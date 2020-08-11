@@ -1,0 +1,41 @@
+#from django.shortcuts import render
+from twilio.rest import Client
+from twilio.twiml.messaging_response import MessagingResponse
+# Create your views here
+from django.http import HttpResponse
+def greeting(request):
+
+    k=request.POST['Body']
+    t = request.POST['From']
+    print(k)
+    account_sid = 'ACebfb9c396766423937a1d3edc7a5763c'
+    auth_token = '0d3a387ad607602800f052f3aad857be'
+    client = Client(account_sid, auth_token)
+
+    # Your Account Sid and Auth Token from twilio.com/console
+    # DANGER! This is insecure. See http://twil.io/secure
+
+    if ((('name') and ('My')) in k):
+        p = k.split(' ')
+        s = 'ok your nick name is  {}'.format(p[len(p) - 1]);
+    elif (('name' and ('your')) in k):
+        s = 'I am saikat robot';
+    elif (check1(k)==True):
+        s = 'happy! to hear it.Now tell me what is your nick name?'
+    elif (check3(k)==True):
+        s = 'I am well.Thank you.Now tell me how are you?'
+    elif (check(k)==True):
+        s = 'sorry!to hear it stay happy always as it will give more immunity power'
+    elif("ok" in k):
+        s="hmm!!"
+
+
+    else:
+        s = 'I can only response on 1)How are you? and some subsequent conversation 2)what is your name?please do not'
+
+    resp = MessagingResponse()
+
+    resp.message(s)
+    return HttpResponse(resp)
+
+
